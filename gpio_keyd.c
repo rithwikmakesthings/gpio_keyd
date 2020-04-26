@@ -34,6 +34,7 @@
 #include <linux/uinput.h>
 
 #include <wiringPi.h>
+#include <mcp23008.h>
 
 #include "gpio_keyd.h"
 
@@ -58,8 +59,10 @@ static int init_uinput(void)
 
 	if (ioctl(fd, UI_SET_EVBIT, EV_KEY) < 0)
 		goto err;
+	/*
 	if (ioctl(fd, UI_SET_EVBIT, EV_REP) < 0)
 		goto err;
+	*/
 	if (ioctl(fd, UI_SET_KEYBIT, BTN_LEFT) < 0)
 		goto err;
 	if (ioctl(fd, UI_SET_EVBIT, EV_REL) < 0)
@@ -76,7 +79,7 @@ static int init_uinput(void)
 	}
 
 	memset(&uidev, 0, sizeof(uidev));
-	snprintf(uidev.name, UINPUT_MAX_NAME_SIZE, "uinput-gpio_keyd");
+	snprintf(uidev.name, UINPUT_MAX_NAME_SIZE, "keys");
 	uidev.id.bustype = BUS_HOST;
 	uidev.id.vendor  = 0x1;
 	uidev.id.product = 0x1;
@@ -177,6 +180,7 @@ static void init_gpio_keyd(void)
 	struct gpio_key *p;
 
 	wiringPiSetup();
+	mcp23008Setup(100, 0x20);
 
 	for (p = gpio_key_head.lh_first; p != NULL; p = p->list.le_next) {
 		pinMode(p->pin, INPUT);
