@@ -34,7 +34,7 @@
 #include <linux/uinput.h>
 
 #include <wiringPi.h>
-#include <mcp23008.h>
+#include <mcp23017.h>
 
 #include "gpio_keyd.h"
 
@@ -180,7 +180,7 @@ static void init_gpio_keyd(void)
 	struct gpio_key *p;
 
 	wiringPiSetup();
-	mcp23008Setup(100, 0x20);
+	mcp23017Setup(100, 0x20);
 
 	for (p = gpio_key_head.lh_first; p != NULL; p = p->list.le_next) {
 		pinMode(p->pin, INPUT);
