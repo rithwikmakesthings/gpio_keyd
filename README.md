@@ -11,7 +11,7 @@ $ git clone https://github.com/hardkernel/wiringPi.git
 $ cd wiringPi
 $ sudo ./build
 $ cd
-$ git clone https://github.com/bkrepo/gpio_keyd.git
+$ git clone https://github.com/rithwikmakesthings/gpio_keyd.git
 $ cd gpio_keyd
 $ make
 $ sudo make install
